@@ -3,9 +3,7 @@ variable "virtual_networks" {}
 variable "subnets" {}
 variable "public_ips" {}
 variable "loadbalancers" {}
-variable "bastions" {
-
-}
+variable "bastions" {}
 
 module "resource_group" {
   source = "../monolithic-landing-zone/environments/dev/azurerm_resource_group"
