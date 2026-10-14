@@ -1,3 +1,1 @@
-variable "pips" {
-
-}
+variable "pips" {}
