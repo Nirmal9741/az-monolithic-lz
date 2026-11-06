@@ -95,13 +95,14 @@ flowchart TD
     
     SUBNET -->|attaches to| NIC
     PIP -->|assigns to| NIC
+    NIC -->|attaches to| VM["💻 Frontend & Backend VMs<br/>(azurerm_linux_virtual_machine)"]:::comp
     
     SUBNET -->|hosts| BASTION
     PIP -->|secures| BASTION
 
     class RG rg;
     class VNET,PIP,SUBNET net;
-    class NIC,LB comp;
+    class NIC,LB,VM comp;
     class BASTION sec;
 ```
 
@@ -114,9 +115,11 @@ flowchart TD
 | **Modular Design** | Decoupled submodules under `environments/dev/` driven by a unified orchestrator. | 🧩 |
 | **Dynamic Iteration** | Utilizes Terraform `for_each` maps to provision multiple resources predictably. | 🔁 |
 | **Strict Ordering** | Enforces resource sequence using explicit `depends_on` relationships. | 📐 |
+| **Compute Tier** | Provision multiple Linux VMs (frontend & backend) mapped dynamically to dedicated NICs. | 💻 |
 | **Zero-Trust Perimeter** | Bastion-enabled architecture eliminating open RDP/SSH ports on public internet. | 🔒 |
 | **Scalable Traffic Distribution** | Integrated Azure Load Balancer ready to balance inbound traffic. | ⚖️ |
-| **Infrastructure as Code** | 100% reproducible, version-controlled cloud infrastructure. | 💻 |
+| **Remote State Backend** | Azure Blob Storage backend (`azurerm`) for shared, locked, and secure state management. | 📦 |
+| **Infrastructure as Code** | 100% reproducible, version-controlled cloud infrastructure. | ⚡ |
 
 ---
 
@@ -132,6 +135,10 @@ az-monolithic-lz/
 │       │   └── variables.tf
 │       ├── 📁 azurerm_lb/                    # Azure Load Balancer module
 │       │   ├── main.tf
+│       │   └── variables.tf
+│       ├── 📁 azurerm_linux_virtual_machine/ # Frontend & Backend VM module
+│       │   ├── data.tf                      # NIC data lookups
+│       │   ├── main.tf                      # Linux VM definitions
 │       │   └── variables.tf
 │       ├── 📁 azurerm_network_interface/     # NIC provisioning with IP config
 │       │   ├── data.tf
@@ -151,7 +158,8 @@ az-monolithic-lz/
 │           └── variables.tf
 ├── 📁 modules/
 │   ├── main.tf                              # Root orchestration module
-│   └── provider.tf                          # AzureRM provider requirements
+│   ├── provider.tf                          # AzureRM provider & remote backend
+│   └── terraform.tfvars.example             # Complete configuration template
 ├── .gitignore                               # Terraform ignore patterns
 └── README.md                                # Project documentation
 ```
@@ -268,8 +276,13 @@ public_ips = {
 
 # Network Interfaces
 network_interfaces = {
-  nic1 = {
-    name                = "dev-app-nic"
+  frontend_nic = {
+    name                = "frontend-nic"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+  }
+  backend_nic = {
+    name                = "backend-nic"
     resource_group_name = "dev-rg"
     location            = "East US"
   }
@@ -292,6 +305,28 @@ bastion_hosts = {
     location            = "East US"
   }
 }
+
+# Virtual Machines (Frontend & Backend VMs)
+virtual_machines = {
+  frontend_vm = {
+    name                = "frontend-vm"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    size                = "Standard_B1s"
+    admin_username      = "azureuser"
+    admin_password      = "AzureDevOps2026!"
+    nic_name            = "frontend-nic"
+  }
+  backend_vm = {
+    name                = "backend-vm"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    size                = "Standard_B1s"
+    admin_username      = "azureuser"
+    admin_password      = "AzureDevOps2026!"
+    nic_name            = "backend-nic"
+  }
+}
 ```
 
 </details>
@@ -309,7 +344,8 @@ bastion_hosts = {
 │   └── azurerm_public_ip             : Static ingress points
 │
 ├── 🛡️ Compute & Interface Tier
-│   └── azurerm_network_interface     : Dynamic private addressing + Public binding
+│   ├── azurerm_network_interface     : Dynamic private addressing + Public binding
+│   └── azurerm_linux_virtual_machine : Frontend & Backend Linux Virtual Machines
 │
 ├── ⚖️ Traffic Distribution
 │   └── azurerm_lb                    : Resilient service balancing

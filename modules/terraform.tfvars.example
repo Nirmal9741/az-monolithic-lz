@@ -55,8 +55,13 @@ public_ips = {
 
 # Network Interfaces
 network_interfaces = {
-  nic1 = {
-    name                = "dev-app-nic"
+  frontend_nic = {
+    name                = "frontend-nic"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+  }
+  backend_nic = {
+    name                = "backend-nic"
     resource_group_name = "dev-rg"
     location            = "East US"
   }
@@ -80,3 +85,24 @@ bastion_hosts = {
   }
 }
 
+# Virtual Machines (Frontend & Backend VMs)
+virtual_machines = {
+  frontend_vm = {
+    name                = "frontend-vm"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    size                = "Standard_B1s"
+    admin_username      = "azureuser"
+    admin_password      = "AzureDevOps2026!"
+    nic_name            = "frontend-nic"
+  }
+  backend_vm = {
+    name                = "backend-vm"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    size                = "Standard_B1s"
+    admin_username      = "azureuser"
+    admin_password      = "AzureDevOps2026!"
+    nic_name            = "backend-nic"
+  }
+}

@@ -5,6 +5,7 @@ variable "subnets" {}
 variable "network_interfaces" {}
 variable "load_balancers" {}
 variable "bastion_hosts" {}
+variable "virtual_machines" {}
 
 module "resource_group" {
   source = "../environments/dev/azurerm_resource_group"
@@ -45,4 +46,10 @@ module "bastion_host" {
   depends_on = [module.subnet, module.public_ip]
   source = "../environments/dev/azurerm_bastion_host"
   bhs    = var.bastion_hosts
+}
+
+module "virtual_machine" {
+  depends_on = [module.network_interface]
+  source     = "../environments/dev/azurerm_linux_virtual_machine"
+  vms        = var.virtual_machines
 }
