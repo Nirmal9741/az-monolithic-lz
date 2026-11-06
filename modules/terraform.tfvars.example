@@ -1,0 +1,82 @@
+# ==============================================================================
+# Azure Monolithic Landing Zone - terraform.tfvars.example
+# Copy this file to terraform.tfvars and customize with your Azure configurations
+# ==============================================================================
+
+# Resource Groups
+resource_groups = {
+  rg1 = {
+    name     = "dev-rg"
+    location = "East US"
+  }
+}
+
+# Virtual Networks
+virtual_networks = {
+  vnet1 = {
+    name                = "dev-vnet"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    address_space       = ["10.0.0.0/16"]
+  }
+}
+
+# Subnets
+subnets = {
+  subnet_frontend = {
+    name                 = "frontend-subnet"
+    resource_group_name  = "dev-rg"
+    virtual_network_name = "dev-vnet"
+    address_prefixes     = ["10.0.1.0/24"]
+  }
+  subnet_bastion = {
+    name                 = "AzureBastionSubnet" # Required name for Azure Bastion
+    resource_group_name  = "dev-rg"
+    virtual_network_name = "dev-vnet"
+    address_prefixes     = ["10.0.2.0/26"]
+  }
+}
+
+# Public IP Addresses
+public_ips = {
+  pip_vm = {
+    name                = "VM-pip"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    allocation_method   = "Static"
+  }
+  pip_bastion = {
+    name                = "bastion-pip"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+    allocation_method   = "Static"
+  }
+}
+
+# Network Interfaces
+network_interfaces = {
+  nic1 = {
+    name                = "dev-app-nic"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+  }
+}
+
+# Load Balancers
+load_balancers = {
+  lb1 = {
+    name                = "dev-external-lb"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+  }
+}
+
+# Bastion Hosts
+bastion_hosts = {
+  bastion1 = {
+    name                = "dev-bastion"
+    resource_group_name = "dev-rg"
+    location            = "East US"
+  }
+}
+
