@@ -353,7 +353,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0078D4,50:005A9E,100:00C7FF&height=120&section=footer" width="100%" alt="Footer Wave" />
 
 <p align="center">
-  Built with ❤️ for Cloud & DevOps Engineers • Crafted for <a href="https://github.com/Nirmal9741"><b>DevOps Insiders</b></a>
+  Built with ❤️ for Cloud & DevOps Engineers
 </p>
 
 </div>
