@@ -159,7 +159,7 @@ az-monolithic-lz/
 ├── 📁 modules/
 │   ├── main.tf                              # Root orchestration module
 │   ├── provider.tf                          # AzureRM provider & remote backend
-│   └── terraform.tfvars.example             # Complete configuration template
+│   └── terraform.tfvars                     # Complete configuration template
 ├── .gitignore                               # Terraform ignore patterns
 └── README.md                                # Project documentation
 ```
