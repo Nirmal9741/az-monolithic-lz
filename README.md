@@ -7,7 +7,7 @@
 
 <!-- Animated Typing Tagline -->
 <a href="https://github.com/Nirmal9741/az-monolithic-lz">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=1000&color=0078D4&center=true&vCenter=true&width=620&lines=☁️+Modular+Terraform+Landing+Zone;🔒+Secure+Bastion+%26+Network+Isolation;⚖️+Load-Balanced+High-Availability;⚡+Production-Ready+IaC+Architecture" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=1000&color=0078D4&center=true&vCenter=true&width=620&lines=Modular+Terraform+Landing+Zone;Zero-Trust+Bastion+%26+Network+Isolation;High-Availability+Load+Balancing;Production-Ready+Azure+IaC" alt="Typing SVG" />
 </a>
 
 <p align="center">
